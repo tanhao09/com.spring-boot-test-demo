@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head lang="en">
+    <meta charset="UTF-8" />
+    <title></title>
+</head>
+<body>
+Thymeleaf模板引擎
+        <h1 th:text="${name}">hello world~~~~~~~</h1>
+        <h1 th:text="${resource.domain}">测试domain</h1>
+        <h1 th:text="${resource.picPre}">测试picPre</h1>
+        <h1 th:text="${resource.httpAgreement}">测试httpAgreement</h1>
+        <h1 th:text="${resource.website}">测试website</h1>
+    <div th:object="${resource}">
+        <h1 th:text="${name}">hello world~~~~~~~</h1>
+        <h1 th:text="*{domain}">测试domain</h1>
+        <h1 th:text="*{picPre}">测试picPre</h1>
+        <h1 th:text="*{httpAgreement}">测试httpAgreement</h1>
+        <h1 th:text="*{website}">测试website</h1>
+    </div>
+
+    <div>
+        text 与 utext ：<br/>
+        <span th:text="${user.desc}">abc</span>
+        <br/>
+        <span th:utext="${user.desc}">abc</span>
+        <br/>
+        <br/>
+    </div>
+
+    <div>
+        URL:<br/>
+        <a href="http://www.rongyiju.com">传统网站地址</a><br/>
+        <a href="" th:href="@{http://www.rongyiju.com}">thyeleaf模板网站地址</a>
+        <br/>
+    </div>
+
+
+    <div>
+        <br/>
+        <form th:action="@{/api/user/getUser}" th:object="${user}" method="post" th:method="post">
+            <input type="text" th:field="*{userName}"/>
+            <input type="text" th:field="*{deptId}"/>
+            <input type="submit"/>
+        </form>
+        <br/>
+    </div>
+
+    <div>
+        <br/>
+        <div th:if="${user.deptId} == 18">十八岁的天空</div>
+        <div th:if="${user.deptId} gt 18">你老了</div>
+        <div th:if="${user.deptId} lt 18">你很年轻</div>
+        <div th:if="${user.deptId} ge 18">大于等于</div>
+        <div th:if="${user.deptId} le 18">小于等于</div>
+        <br/>
+    </div>
+
+    <div>
+        <br/>
+        <select>
+            <option >选择框</option>
+            <option th:selected="${user.userName eq 'lee'}">lee</option>
+            <option th:selected="${user.userName eq 'imooc'}">imooc</option>
+            <option th:selected="${user.userName eq 'LeeCX'}">LeeCX</option>
+        </select>
+        <br/>
+    </div>
+
+
+    <div>
+        <br/>
+        <table>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>年龄备注</th>
+                <th>生日</th>
+            </tr>
+            <tr th:each="person:${userList}">
+                <td th:text="${person.userName}"></td>
+                <td th:text="${person.mobile}"></td>
+                <td th:text="${person.deptId gt 18} ? 你老了 : 你很年轻">18岁</td>
+                <td th:text="${#dates.format(person.birthday, 'yyyy-MM-dd hh:mm:ss')}"></td>
+            </tr>
+        </table>
+        <br/>
+    </div>
+
+
+    <div>
+        <br/>
+        <div th:switch="${user.userName}">
+            <p th:case="'lee'">lee</p>
+            <p th:case="#{roles.manager}">普通管理员</p>
+            <p th:case="#{roles.superadmin}">超级管理员</p>
+            <p th:case="*">其他用户</p>
+        </div>
+        <br/>
+    </div>
+
+</body>
+</html>
